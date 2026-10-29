@@ -1,0 +1,87 @@
+import { StateRecord, CountyRecord } from './types';
+
+export const US_STATES_GRID: StateRecord[] = [
+  // Row 1
+  { code: 'AK', name: 'Alaska', row: 1, col: 1, lossPerPerson: 410, totalLoss: '$1.2B', highRiskPct: 40.2, countiesCount: 29, highRiskCounties: 8, population: '733,391', hazards: [{ name: 'Earthquake', loss: '$800M/yr', barPct: 80 }] },
+  { code: 'ME', name: 'Maine', row: 1, col: 12, lossPerPerson: 180, totalLoss: '$420M', highRiskPct: 15.1, countiesCount: 16, highRiskCounties: 2, population: '1,385,340', hazards: [{ name: 'Severe storm', loss: '$250M/yr', barPct: 60 }] },
+  // Row 2
+  { code: 'WA', name: 'Washington', row: 2, col: 2, lossPerPerson: 620, totalLoss: '$7.4B', highRiskPct: 75.3, countiesCount: 39, highRiskCounties: 22, population: '7,705,281', hazards: [{ name: 'Earthquake', loss: '$4.1B/yr', barPct: 90 }] },
+  { code: 'ID', name: 'Idaho', row: 2, col: 3, lossPerPerson: 310, totalLoss: '$980M', highRiskPct: 32.0, countiesCount: 44, highRiskCounties: 10, population: '1,939,033', hazards: [{ name: 'Wildfire', loss: '$540M/yr', barPct: 70 }] },
+  { code: 'MT', name: 'Montana', row: 2, col: 4, lossPerPerson: 380, totalLoss: '$810M', highRiskPct: 28.5, countiesCount: 56, highRiskCounties: 12, population: '1,122,867', hazards: [{ name: 'Wildfire', loss: '$490M/yr', barPct: 65 }] },
+  { code: 'ND', name: 'North Dakota', row: 2, col: 5, lossPerPerson: 290, totalLoss: '$450M', highRiskPct: 18.2, countiesCount: 53, highRiskCounties: 6, population: '779,261', hazards: [{ name: 'Inland flooding', loss: '$310M/yr', barPct: 75 }] },
+  { code: 'MN', name: 'Minnesota', row: 2, col: 6, lossPerPerson: 340, totalLoss: '$2.8B', highRiskPct: 24.1, countiesCount: 87, highRiskCounties: 15, population: '5,717,184', hazards: [{ name: 'Severe storm', loss: '$1.4B/yr', barPct: 70 }] },
+  { code: 'IL', name: 'Illinois', row: 2, col: 7, lossPerPerson: 420, totalLoss: '$6.5B', highRiskPct: 52.4, countiesCount: 102, highRiskCounties: 41, population: '12,582,032', hazards: [{ name: 'Tornado', loss: '$3.1B/yr', barPct: 80 }] },
+  { code: 'WI', name: 'Wisconsin', row: 2, col: 8, lossPerPerson: 315, totalLoss: '$2.3B', highRiskPct: 22.0, countiesCount: 72, highRiskCounties: 11, population: '5,892,539', hazards: [{ name: 'Inland flooding', loss: '$1.1B/yr', barPct: 65 }] },
+  { code: 'MI', name: 'Michigan', row: 2, col: 9, lossPerPerson: 330, totalLoss: '$4.1B', highRiskPct: 31.8, countiesCount: 83, highRiskCounties: 21, population: '10,034,113', hazards: [{ name: 'Severe storm', loss: '$2.0B/yr', barPct: 70 }] },
+  { code: 'NY', name: 'New York', row: 2, col: 10, lossPerPerson: 590, totalLoss: '$16.2B', highRiskPct: 78.4, countiesCount: 62, highRiskCounties: 38, population: '19,677,151', hazards: [{ name: 'Hurricane', loss: '$8.2B/yr', barPct: 85 }] },
+  { code: 'MA', name: 'Massachusetts', row: 2, col: 11, lossPerPerson: 410, totalLoss: '$4.5B', highRiskPct: 45.1, countiesCount: 14, highRiskCounties: 6, population: '6,981,974', hazards: [{ name: 'Coastal flood', loss: '$2.2B/yr', barPct: 75 }] },
+  // Row 3
+  { code: 'OR', name: 'Oregon', row: 3, col: 2, lossPerPerson: 540, totalLoss: '$3.8B', highRiskPct: 64.2, countiesCount: 36, highRiskCounties: 19, population: '4,240,137', hazards: [{ name: 'Wildfire', loss: '$2.1B/yr', barPct: 82 }] },
+  { code: 'NV', name: 'Nevada', row: 3, col: 3, lossPerPerson: 480, totalLoss: '$2.1B', highRiskPct: 58.7, countiesCount: 17, highRiskCounties: 8, population: '3,177,772', hazards: [{ name: 'Earthquake', loss: '$1.1B/yr', barPct: 72 }] },
+  { code: 'WY', name: 'Wyoming', row: 3, col: 4, lossPerPerson: 295, totalLoss: '$310M', highRiskPct: 16.4, countiesCount: 23, highRiskCounties: 3, population: '581,381', hazards: [{ name: 'Wildfire', loss: '$190M/yr', barPct: 65 }] },
+  { code: 'SD', name: 'South Dakota', row: 3, col: 5, lossPerPerson: 320, totalLoss: '$410M', highRiskPct: 20.1, countiesCount: 66, highRiskCounties: 8, population: '909,824', hazards: [{ name: 'Severe storm', loss: '$230M/yr', barPct: 68 }] },
+  { code: 'IA', name: 'Iowa', row: 3, col: 6, lossPerPerson: 460, totalLoss: '$2.2B', highRiskPct: 48.0, countiesCount: 99, highRiskCounties: 36, population: '3,200,517', hazards: [{ name: 'Inland flooding', loss: '$1.2B/yr', barPct: 78 }] },
+  { code: 'IN', name: 'Indiana', row: 3, col: 7, lossPerPerson: 390, totalLoss: '$3.4B', highRiskPct: 37.4, countiesCount: 92, highRiskCounties: 28, population: '6,833,037', hazards: [{ name: 'Tornado', loss: '$1.7B/yr', barPct: 75 }] },
+  { code: 'OH', name: 'Ohio', row: 3, col: 8, lossPerPerson: 385, totalLoss: '$5.6B', highRiskPct: 39.0, countiesCount: 88, highRiskCounties: 30, population: '11,756,058', hazards: [{ name: 'Severe storm', loss: '$2.8B/yr', barPct: 72 }] },
+  { code: 'PA', name: 'Pennsylvania', row: 3, col: 9, lossPerPerson: 430, totalLoss: '$7.1B', highRiskPct: 46.2, countiesCount: 67, highRiskCounties: 27, population: '12,972,008', hazards: [{ name: 'Inland flooding', loss: '$3.5B/yr', barPct: 76 }] },
+  { code: 'NJ', name: 'New Jersey', row: 3, col: 10, lossPerPerson: 615, totalLoss: '$7.8B', highRiskPct: 77.0, countiesCount: 21, highRiskCounties: 14, population: '9,261,699', hazards: [{ name: 'Coastal flood', loss: '$4.2B/yr', barPct: 85 }] },
+  { code: 'CT', name: 'Connecticut', row: 3, col: 11, lossPerPerson: 440, totalLoss: '$2.2B', highRiskPct: 43.1, countiesCount: 8, highRiskCounties: 4, population: '3,605,944', hazards: [{ name: 'Hurricane', loss: '$1.1B/yr', barPct: 70 }] },
+  // Row 4 (California primary anchor)
+  {
+    code: 'CA',
+    name: 'California',
+    row: 4,
+    col: 2,
+    lossPerPerson: 765,
+    totalLoss: '$30.2B',
+    highRiskPct: 94.4,
+    countiesCount: 58,
+    highRiskCounties: 31,
+    population: '39,501,350',
+    hazards: [
+      { name: 'Earthquake', loss: '$14.9B/yr', barPct: 100 },
+      { name: 'Inland flooding', loss: '$11.7B/yr', barPct: 78 },
+      { name: 'Wildfire', loss: '$1.8B/yr', barPct: 18 },
+    ],
+  },
+  { code: 'UT', name: 'Utah', row: 4, col: 3, lossPerPerson: 420, totalLoss: '$2.0B', highRiskPct: 48.0, countiesCount: 29, highRiskCounties: 12, population: '3,380,800', hazards: [{ name: 'Earthquake', loss: '$1.2B/yr', barPct: 75 }] },
+  { code: 'CO', name: 'Colorado', row: 4, col: 4, lossPerPerson: 510, totalLoss: '$4.2B', highRiskPct: 61.2, countiesCount: 64, highRiskCounties: 28, population: '5,839,926', hazards: [{ name: 'Wildfire', loss: '$2.4B/yr', barPct: 80 }] },
+  { code: 'NE', name: 'Nebraska', row: 4, col: 5, lossPerPerson: 410, totalLoss: '$1.3B', highRiskPct: 39.5, countiesCount: 93, highRiskCounties: 24, population: '1,967,923', hazards: [{ name: 'Severe storm', loss: '$680M/yr', barPct: 74 }] },
+  { code: 'MO', name: 'Missouri', row: 4, col: 6, lossPerPerson: 520, totalLoss: '$4.5B', highRiskPct: 63.4, countiesCount: 114, highRiskCounties: 55, population: '6,177,957', hazards: [{ name: 'Tornado', loss: '$2.4B/yr', barPct: 82 }] },
+  { code: 'KY', name: 'Kentucky', row: 4, col: 7, lossPerPerson: 490, totalLoss: '$3.2B', highRiskPct: 56.1, countiesCount: 120, highRiskCounties: 48, population: '4,512,310', hazards: [{ name: 'Inland flooding', loss: '$1.8B/yr', barPct: 79 }] },
+  { code: 'WV', name: 'West Virginia', row: 4, col: 8, lossPerPerson: 470, totalLoss: '$1.2B', highRiskPct: 53.0, countiesCount: 55, highRiskCounties: 23, population: '1,775,156', hazards: [{ name: 'Inland flooding', loss: '$750M/yr', barPct: 78 }] },
+  { code: 'VA', name: 'Virginia', row: 4, col: 9, lossPerPerson: 460, totalLoss: '$5.4B', highRiskPct: 49.3, countiesCount: 95, highRiskCounties: 34, population: '8,683,619', hazards: [{ name: 'Hurricane', loss: '$2.8B/yr', barPct: 75 }] },
+  { code: 'MD', name: 'Maryland', row: 4, col: 10, lossPerPerson: 450, totalLoss: '$3.7B', highRiskPct: 47.0, countiesCount: 24, highRiskCounties: 10, population: '6,164,660', hazards: [{ name: 'Coastal flood', loss: '$1.9B/yr', barPct: 72 }] },
+  { code: 'DE', name: 'Delaware', row: 4, col: 11, lossPerPerson: 430, totalLoss: '$610M', highRiskPct: 44.0, countiesCount: 3, highRiskCounties: 1, population: '1,018,396', hazards: [{ name: 'Coastal flood', loss: '$320M/yr', barPct: 70 }] },
+  // Row 5
+  { code: 'AZ', name: 'Arizona', row: 5, col: 3, lossPerPerson: 495, totalLoss: '$5.1B', highRiskPct: 59.8, countiesCount: 15, highRiskCounties: 7, population: '7,359,197', hazards: [{ name: 'Extreme heat', loss: '$2.7B/yr', barPct: 80 }] },
+  { code: 'NM', name: 'New Mexico', row: 5, col: 4, lossPerPerson: 480, totalLoss: '$1.6B', highRiskPct: 55.4, countiesCount: 33, highRiskCounties: 14, population: '2,113,344', hazards: [{ name: 'Wildfire', loss: '$920M/yr', barPct: 76 }] },
+  { code: 'KS', name: 'Kansas', row: 5, col: 5, lossPerPerson: 470, totalLoss: '$2.0B', highRiskPct: 51.0, countiesCount: 105, highRiskCounties: 42, population: '2,937,150', hazards: [{ name: 'Tornado', loss: '$1.1B/yr', barPct: 78 }] },
+  { code: 'AR', name: 'Arkansas', row: 5, col: 6, lossPerPerson: 515, totalLoss: '$2.4B', highRiskPct: 62.0, countiesCount: 75, highRiskCounties: 36, population: '3,045,637', hazards: [{ name: 'Tornado', loss: '$1.3B/yr', barPct: 81 }] },
+  { code: 'TN', name: 'Tennessee', row: 5, col: 7, lossPerPerson: 480, totalLoss: '$4.7B', highRiskPct: 54.3, countiesCount: 95, highRiskCounties: 41, population: '7,051,339', hazards: [{ name: 'Severe storm', loss: '$2.4B/yr', barPct: 74 }] },
+  { code: 'NC', name: 'North Carolina', row: 5, col: 8, lossPerPerson: 580, totalLoss: '$8.6B', highRiskPct: 73.1, countiesCount: 100, highRiskCounties: 56, population: '10,698,973', hazards: [{ name: 'Hurricane', loss: '$4.8B/yr', barPct: 85 }] },
+  { code: 'SC', name: 'South Carolina', row: 5, col: 9, lossPerPerson: 590, totalLoss: '$4.4B', highRiskPct: 74.5, countiesCount: 46, highRiskCounties: 26, population: '5,282,634', hazards: [{ name: 'Hurricane', loss: '$2.5B/yr', barPct: 86 }] },
+  // Row 6
+  { code: 'OK', name: 'Oklahoma', row: 6, col: 5, lossPerPerson: 610, totalLoss: '$3.5B', highRiskPct: 76.0, countiesCount: 77, highRiskCounties: 47, population: '4,019,800', hazards: [{ name: 'Tornado', loss: '$2.2B/yr', barPct: 88 }] },
+  { code: 'LA', name: 'Louisiana', row: 6, col: 6, lossPerPerson: 820, totalLoss: '$5.7B', highRiskPct: 96.0, countiesCount: 64, highRiskCounties: 58, population: '4,590,241', hazards: [{ name: 'Hurricane', loss: '$3.9B/yr', barPct: 95 }] },
+  { code: 'MS', name: 'Mississippi', row: 6, col: 7, lossPerPerson: 580, totalLoss: '$2.5B', highRiskPct: 71.0, countiesCount: 82, highRiskCounties: 44, population: '2,940,057', hazards: [{ name: 'Tornado', loss: '$1.4B/yr', barPct: 82 }] },
+  { code: 'AL', name: 'Alabama', row: 6, col: 8, lossPerPerson: 590, totalLoss: '$4.3B', highRiskPct: 72.8, countiesCount: 67, highRiskCounties: 39, population: '5,074,296', hazards: [{ name: 'Tornado', loss: '$2.3B/yr', barPct: 83 }] },
+  { code: 'GA', name: 'Georgia', row: 6, col: 9, lossPerPerson: 510, totalLoss: '$7.8B', highRiskPct: 60.2, countiesCount: 159, highRiskCounties: 76, population: '10,912,876', hazards: [{ name: 'Hurricane', loss: '$4.1B/yr', barPct: 77 }] },
+  // Row 7
+  { code: 'HI', name: 'Hawaii', row: 7, col: 1, lossPerPerson: 490, totalLoss: '$1.0B', highRiskPct: 56.0, countiesCount: 5, highRiskCounties: 2, population: '1,440,196', hazards: [{ name: 'Wildfire', loss: '$580M/yr', barPct: 75 }] },
+  { code: 'TX', name: 'Texas', row: 7, col: 5, lossPerPerson: 710, totalLoss: '$31.8B', highRiskPct: 88.0, countiesCount: 254, highRiskCounties: 168, population: '30,029,572', hazards: [{ name: 'Hurricane', loss: '$16.2B/yr', barPct: 92 }] },
+  { code: 'FL', name: 'Florida', row: 7, col: 10, lossPerPerson: 850, totalLoss: '$28.4B', highRiskPct: 98.2, countiesCount: 67, highRiskCounties: 64, population: '22,244,823', hazards: [{ name: 'Hurricane', loss: '$19.8B/yr', barPct: 98 }] },
+];
+
+export const SAMPLE_COUNTIES: CountyRecord[] = [
+  { name: 'Los Angeles County', state: 'California', lossPerPerson: '$812', totalLoss: '$13.2B', pop: '9,829,544', risk: 'Very High', color: '#7a221b' },
+  { name: 'Orange County', state: 'California', lossPerPerson: '$745', totalLoss: '$3.5B', pop: '3,167,809', risk: 'High', color: '#a23924' },
+  { name: 'San Diego County', state: 'California', lossPerPerson: '$690', totalLoss: '$3.1B', pop: '3,298,634', risk: 'Relatively High', color: '#ca6834' },
+  { name: 'Riverside County', state: 'California', lossPerPerson: '$780', totalLoss: '$2.8B', pop: '2,458,395', risk: 'Very High', color: '#7a221b' },
+  { name: 'San Bernardino County', state: 'California', lossPerPerson: '$755', totalLoss: '$2.5B', pop: '2,181,654', risk: 'High', color: '#a23924' },
+  { name: 'Santa Clara County', state: 'California', lossPerPerson: '$620', totalLoss: '$1.8B', pop: '1,885,508', risk: 'Relatively High', color: '#ca6834' },
+  { name: 'Fresno County', state: 'California', lossPerPerson: '$510', totalLoss: '$740M', pop: '1,013,581', risk: 'Moderate', color: '#e5ab58' },
+  { name: 'Alameda County', state: 'California', lossPerPerson: '$580', totalLoss: '$1.4B', pop: '1,648,556', risk: 'Relatively High', color: '#ca6834' },
+  { name: 'Sacramento County', state: 'California', lossPerPerson: '$490', totalLoss: '$1.1B', pop: '1,588,921', risk: 'Moderate', color: '#e5ab58' },
+  { name: 'Inyo County', state: 'California', lossPerPerson: '$210', totalLoss: '$18M', pop: '18,970', risk: 'Very Low', color: '#fef3cc' },
+];
