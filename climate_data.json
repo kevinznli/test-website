@@ -1,0 +1,156 @@
+{
+  "regions": {
+    "Bay Area": {
+      "max_gust": 20.132999420166016,
+      "median_gust": 4.026599884033203,
+      "min_rh": 21.0
+    },
+    "Central Coast": {
+      "max_gust": 25.501798629760742,
+      "median_gust": 5.816199779510498,
+      "min_rh": 31.0
+    },
+    "Central Valley": {
+      "max_gust": 19.461898803710938,
+      "median_gust": 4.473999977111816,
+      "min_rh": 29.0
+    },
+    "Inland / Desert": {
+      "max_gust": 27.962499618530273,
+      "median_gust": 4.697699546813965,
+      "min_rh": 14.0
+    },
+    "North Coast": {
+      "max_gust": 23.041099548339844,
+      "median_gust": 6.039900302886963,
+      "min_rh": 21.0
+    },
+    "Northern Interior": {
+      "max_gust": 21.027799606323242,
+      "median_gust": 3.8029000759124756,
+      "min_rh": 18.0
+    },
+    "Sierra Nevada": {
+      "max_gust": 25.054399490356445,
+      "median_gust": 5.816199779510498,
+      "min_rh": 15.0
+    },
+    "South Coast": {
+      "max_gust": 18.343399047851562,
+      "median_gust": 5.592499732971191,
+      "min_rh": 13.0
+    }
+  },
+  "stations": {
+    "Eureka (Far North Coast)": {
+      "lat": 40.8021,
+      "lon": -124.1637,
+      "region": "North Coast"
+    },
+    "Mendocino / Fort Bragg (Mendocino Coast)": {
+      "lat": 39.3078,
+      "lon": -123.7994,
+      "region": "North Coast"
+    },
+    "Redding (Northern Interior)": {
+      "lat": 40.5865,
+      "lon": -122.3917,
+      "region": "Northern Interior"
+    },
+    "Chico (Upper Sacramento Valley)": {
+      "lat": 39.7285,
+      "lon": -121.8375,
+      "region": "Northern Interior"
+    },
+    "Nevada City (Sierra Foothills)": {
+      "lat": 39.3039,
+      "lon": -120.7685,
+      "region": "Sierra Nevada"
+    },
+    "South Lake Tahoe (Sierra Crest)": {
+      "lat": 38.9399,
+      "lon": -119.9772,
+      "region": "Sierra Nevada"
+    },
+    "Mono Lake / Bridgeport (Eastern Sierra)": {
+      "lat": 38.2557,
+      "lon": -119.2313,
+      "region": "Sierra Nevada"
+    },
+    "Santa Rosa (North Bay)": {
+      "lat": 38.4404,
+      "lon": -122.7141,
+      "region": "Bay Area"
+    },
+    "San Francisco (Bay Area Urban)": {
+      "lat": 37.7749,
+      "lon": -122.4194,
+      "region": "Bay Area"
+    },
+    "San Jose (South Bay)": {
+      "lat": 37.3382,
+      "lon": -121.8863,
+      "region": "Bay Area"
+    },
+    "Monterey (Central Coast)": {
+      "lat": 36.6002,
+      "lon": -121.8947,
+      "region": "Central Coast"
+    },
+    "San Luis Obispo (Central Coast)": {
+      "lat": 35.2828,
+      "lon": -120.6596,
+      "region": "Central Coast"
+    },
+    "Sacramento (Delta / Capitol)": {
+      "lat": 38.5816,
+      "lon": -121.4944,
+      "region": "Central Valley"
+    },
+    "Modesto (Northern San Joaquin Valley)": {
+      "lat": 37.6391,
+      "lon": -120.9969,
+      "region": "Central Valley"
+    },
+    "Fresno (Central Valley Core)": {
+      "lat": 36.7468,
+      "lon": -119.7726,
+      "region": "Central Valley"
+    },
+    "Bakersfield (Southern Valley)": {
+      "lat": 35.3733,
+      "lon": -119.0187,
+      "region": "Central Valley"
+    },
+    "Ventura (Oxnard Coastal Plain)": {
+      "lat": 34.2805,
+      "lon": -119.2945,
+      "region": "South Coast"
+    },
+    "Los Angeles (Urban Basin)": {
+      "lat": 34.0522,
+      "lon": -118.2437,
+      "region": "South Coast"
+    },
+    "Irvine / Santa Ana (Orange County)": {
+      "lat": 33.6846,
+      "lon": -117.8265,
+      "region": "South Coast"
+    },
+    "San Diego (Coastal South)": {
+      "lat": 32.7157,
+      "lon": -117.1611,
+      "region": "South Coast"
+    },
+    "Palm Springs (San Gorgonio Pass / Desert)": {
+      "lat": 33.8303,
+      "lon": -116.5453,
+      "region": "Inland / Desert"
+    },
+    "Barstow (Mojave Desert)": {
+      "lat": 34.8958,
+      "lon": -117.0173,
+      "region": "Inland / Desert"
+    }
+  }
+}
