@@ -11,7 +11,7 @@ import StateInspector from '@/components/map/StateInspector';
 import { US_STATES_GRID } from '@/lib/mockRiskData';
 import { StateRecord } from '@/lib/types';
 
-// Load Leaflet dynamically without SSR
+// Dynamic import for Leaflet client-only rendering
 const RiskLeafletMap = dynamic(
   () => import('@/components/map/RiskLeafletMap'),
   {
@@ -44,7 +44,6 @@ export default function RiskMapPage() {
       <Navigation />
 
       <main className="max-w-7xl w-full mx-auto px-6 py-8">
-        {/* Top Controls: Switch between States and Counties */}
         <MapControls
           viewMode={viewMode}
           onViewModeChange={setViewMode}
@@ -55,7 +54,6 @@ export default function RiskMapPage() {
         />
 
         <div className="flex flex-col lg:flex-row gap-6 mt-4">
-          {/* Main Map Viewer */}
           <div className="flex-1 relative">
             <RiskLeafletMap
               viewMode={viewMode}
@@ -64,16 +62,11 @@ export default function RiskMapPage() {
             <MapLegend />
           </div>
 
-          {/* Right-Hand Detail Panel */}
           <StateInspector
             stateData={selectedState}
             onDrillDown={() => setViewMode('counties')}
           />
         </div>
-
-        <p className="text-[11px] text-gray-500 font-mono mt-4">
-          Proof of Concept · Interactive GIS Map. States and counties shaded across a 5-tier risk gradient.
-        </p>
       </main>
 
       <Footer />
