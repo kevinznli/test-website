@@ -38,9 +38,16 @@ export default function Navigation() {
           >
             Risk map
           </Link>
-          <span className="px-3 py-1.5 text-gray-400 cursor-not-allowed">
+          <Link
+            href="/about"
+            className={`px-3 py-1.5 rounded-md transition-colors ${
+              pathname === '/about'
+                ? 'bg-gray-200/80 text-gray-900 font-semibold'
+                : 'text-gray-600 hover:text-gray-900'
+            }`}
+          >
             About the data
-          </span>
+          </Link>
         </nav>
       </div>
     </header>
