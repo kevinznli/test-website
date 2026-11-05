@@ -44,7 +44,7 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Column 2: Simple 3-Tab Navigation (Spans 2 cols) */}
+          {/* Column 2: 3-Tab Navigation (Spans 2 cols) */}
           <div className="md:col-span-2 space-y-3">
             <h4 className="text-xs font-mono uppercase tracking-wider text-gray-900 font-medium">
               Navigation
@@ -61,9 +61,9 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <span className="text-gray-400 cursor-not-allowed">
+                <Link href="/about" className="text-gray-500 hover:text-gray-900 transition-colors">
                   About the data
-                </span>
+                </Link>
               </li>
             </ul>
           </div>
@@ -89,7 +89,7 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Column 4: About the Data / Feeds (Placeholder) (Spans 2 cols) */}
+          {/* Column 4: Data Feeds (Spans 2 cols) */}
           <div className="md:col-span-2 space-y-3">
             <h4 className="text-xs font-mono uppercase tracking-wider text-gray-900 font-medium">
               Data Feeds

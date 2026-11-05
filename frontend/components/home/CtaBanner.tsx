@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 
 export default function CtaBanner() {
   return (
@@ -9,12 +10,12 @@ export default function CtaBanner() {
           Risk scores, expected losses and vulnerability measures come from FEMA's National Risk Index. Learn what each number means and how we calculate state totals.
         </p>
       </div>
-      <button
-        disabled
-        className="px-5 py-2.5 bg-white text-gray-900 text-xs font-bold rounded-lg cursor-not-allowed opacity-90 whitespace-nowrap"
+      <Link
+        href="/about"
+        className="px-5 py-2.5 bg-white hover:bg-gray-100 text-gray-900 text-xs font-bold rounded-lg transition-colors whitespace-nowrap cursor-pointer shadow-xs inline-block text-center"
       >
-        About the data
-      </button>
+        About the data →
+      </Link>
     </section>
   );
 }
