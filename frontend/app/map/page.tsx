@@ -8,17 +8,17 @@ import Footer from '@/components/common/Footer';
 import MapControls from '@/components/map/MapControls';
 import MapLegend from '@/components/map/MapLegend';
 import StateInspector from '@/components/map/StateInspector';
-import { US_STATES_GRID } from '@/lib/mockRiskData';
-import { StateRecord } from '@/lib/types';
+import CountyInspector from '@/components/map/CountyInspector';
+import { CALIFORNIA_STATE, SAMPLE_COUNTIES } from '@/lib/mockRiskData';
+import { StateRecord, CountyRecord } from '@/lib/types';
 
-// Dynamic import for Leaflet client-only rendering
 const RiskLeafletMap = dynamic(
   () => import('@/components/map/RiskLeafletMap'),
   {
     ssr: false,
     loading: () => (
       <div className="w-full h-[580px] bg-gray-100/80 animate-pulse rounded-2xl flex items-center justify-center border border-gray-200">
-        <span className="text-xs font-mono text-gray-500">Initializing GIS Viewer...</span>
+        <span className="text-xs font-mono text-gray-500">Initializing GIS Map...</span>
       </div>
     ),
   }
@@ -26,17 +26,32 @@ const RiskLeafletMap = dynamic(
 
 export default function RiskMapPage() {
   const [viewMode, setViewMode] = useState<'states' | 'counties'>('states');
-  const [metric, setMetric] = useState('lossPerPerson');
+  const [metric, setMetric] = useState('score');
   const [hazard, setHazard] = useState('All hazards');
-  const [selectedState, setSelectedState] = useState<StateRecord>(
-    US_STATES_GRID.find((s) => s.code === 'CA') || US_STATES_GRID[0]
-  );
+  const [selectedState, setSelectedState] = useState<StateRecord>(CALIFORNIA_STATE);
+  const [selectedCounty, setSelectedCounty] = useState<CountyRecord | null>(null);
 
+  // Handle clicking a polygon on the map
   const handleFeatureSelect = (name: string, type: 'state' | 'county') => {
-    if (type === 'state') {
-      const match = US_STATES_GRID.find((s) => s.name.toLowerCase() === name.toLowerCase());
-      if (match) setSelectedState(match);
+    if (type === 'county') {
+      const match = SAMPLE_COUNTIES.find(
+        (c) => c.name.toLowerCase().includes(name.toLowerCase()) || name.toLowerCase().includes(c.name.toLowerCase())
+      ) || {
+        ...SAMPLE_COUNTIES[0],
+        name: name.includes('County') ? name : `${name} County`,
+      };
+      setSelectedCounty(match);
+      setViewMode('counties');
+    } else {
+      setSelectedCounty(null);
     }
+  };
+
+  // Called when clicking "View county breakdown"
+  const handleDrillDownToCounties = () => {
+    setViewMode('counties');
+    // Default to the highest-risk county in the state (e.g. Riverside)
+    setSelectedCounty(SAMPLE_COUNTIES[0]);
   };
 
   return (
@@ -46,7 +61,11 @@ export default function RiskMapPage() {
       <main className="max-w-7xl w-full mx-auto px-6 py-8">
         <MapControls
           viewMode={viewMode}
-          onViewModeChange={setViewMode}
+          onViewModeChange={(mode) => {
+            setViewMode(mode);
+            if (mode === 'states') setSelectedCounty(null);
+            else if (!selectedCounty) setSelectedCounty(SAMPLE_COUNTIES[0]);
+          }}
           selectedMetric={metric}
           onMetricChange={setMetric}
           selectedHazard={hazard}
@@ -62,10 +81,21 @@ export default function RiskMapPage() {
             <MapLegend />
           </div>
 
-          <StateInspector
-            stateData={selectedState}
-            onDrillDown={() => setViewMode('counties')}
-          />
+          {/* Conditional Sidebar: Shows County details if in county mode, State details otherwise */}
+          {viewMode === 'counties' && selectedCounty ? (
+            <CountyInspector
+              county={selectedCounty}
+              onBackToState={() => {
+                setViewMode('states');
+                setSelectedCounty(null);
+              }}
+            />
+          ) : (
+            <StateInspector
+              stateData={selectedState}
+              onDrillDown={handleDrillDownToCounties}
+            />
+          )}
         </div>
       </main>
 
