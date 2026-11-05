@@ -2,22 +2,26 @@
 
 export interface HazardItem {
   name: string;
-  score: number;      // 0 to 100
+  score: number;       // 0 to 100
   tier: 'Low' | 'Moderate' | 'Elevated' | 'Critical';
-  warning: string;   // e.g., "Red Flag Warning Active", "Gusts >= 35 mph"
+  warning: string;
 }
 
 export interface StateRecord {
   code: string;
   name: string;
-  row?: number;
-  col?: number;
+  row?: number;        // <-- Make optional so state data doesn't require grid coords
+  col?: number;        // <-- Make optional
   compositeScore: number;
   tier: 'Low' | 'Moderate' | 'Elevated' | 'Critical';
   countiesCount: number;
   population: string;
-  activeAlertCount: number;
-  primaryAlert: string;
+  activeAlertCount?: number;
+  primaryAlert?: string;
+  lossPerPerson?: number;
+  totalLoss?: string;
+  highRiskPct?: number;
+  highRiskCounties?: number;
   hazards: HazardItem[];
 }
 
@@ -26,8 +30,12 @@ export interface CountyRecord {
   state: string;
   compositeScore: number;
   tier: 'Low' | 'Moderate' | 'Elevated' | 'Critical';
-  fips: string;
+  fips?: string;
   pop: string;
-  activeAlert: string;
-  hazards: HazardItem[];
+  activeAlert?: string;
+  lossPerPerson?: string;
+  totalLoss?: string;
+  risk?: string;
+  color?: string;
+  hazards: HazardItem[]; // <-- Required array so .map() is always safe
 }
