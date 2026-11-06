@@ -8,47 +8,67 @@ export default function Navigation() {
   const pathname = usePathname();
 
   return (
-    <header className="w-full bg-[#fcfbf7] border-b border-[#ece6da]">
-      <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-        <div>
-          <Link href="/" className="text-base font-bold text-gray-900 tracking-tight block">
-            Risk Resource
-          </Link>
-          <p className="text-[11px] text-gray-500 font-mono">US natural disaster risk</p>
-        </div>
+    <header className="sticky top-0 z-50 w-full bg-[#11100e]/90 backdrop-blur-md border-b border-white/10 px-6 py-3.5 transition-all">
+      <div className="max-w-7xl mx-auto flex items-center justify-between">
+        {/* Brand link to home */}
+        <Link 
+          href="/" 
+          className="group flex items-center gap-2.5 transition-transform active:scale-95"
+        >
+          <div className="border border-white/20 rounded-lg px-2.5 py-1.5 flex items-center gap-2.5 bg-[#1a1815] group-hover:border-amber-500/50 transition-colors shadow-sm">
+            <span className="w-2.5 h-2.5 rounded-full border border-amber-400 flex items-center justify-center">
+              <span className="w-1 h-1 bg-amber-400 rounded-full" />
+            </span>
+            <div>
+              <span className="text-sm font-bold tracking-tight text-white block leading-tight group-hover:text-amber-200 transition-colors">
+                Risk Resource
+              </span>
+              <span className="text-[10px] text-gray-400 font-mono block leading-none">
+                US natural disaster risk
+              </span>
+            </div>
+          </div>
+        </Link>
 
-        <nav className="flex items-center gap-2 text-xs font-medium">
-          <Link
-            href="/"
-            className={`px-3 py-1.5 rounded-md transition-colors ${
-              pathname === '/'
-                ? 'bg-gray-200/80 text-gray-900 font-semibold'
-                : 'text-gray-600 hover:text-gray-900'
-            }`}
-          >
-            Home
-          </Link>
-          <Link
-            href="/map"
-            className={`px-3 py-1.5 rounded-md transition-colors ${
-              pathname === '/map'
-                ? 'bg-gray-200/80 text-gray-900 font-semibold'
-                : 'text-gray-600 hover:text-gray-900'
-            }`}
-          >
-            Risk map
-          </Link>
-          <Link
-            href="/about"
-            className={`px-3 py-1.5 rounded-md transition-colors ${
-              pathname === '/about'
-                ? 'bg-gray-200/80 text-gray-900 font-semibold'
-                : 'text-gray-600 hover:text-gray-900'
-            }`}
-          >
-            About the data
-          </Link>
-        </nav>
+        {/* Links & Prototype Pill */}
+        <div className="flex items-center gap-4">
+          <nav className="flex items-center gap-1 text-xs">
+            <Link
+              href="/"
+              className={`px-3 py-1.5 rounded-md transition-colors ${
+                pathname === '/'
+                  ? 'bg-white/10 text-white font-medium'
+                  : 'text-gray-400 hover:text-white'
+              }`}
+            >
+              Home
+            </Link>
+            <Link
+              href="/map"
+              className={`px-3 py-1.5 rounded-md transition-colors ${
+                pathname === '/map'
+                  ? 'bg-white/10 text-white font-medium'
+                  : 'text-gray-400 hover:text-white'
+              }`}
+            >
+              Risk map
+            </Link>
+            <Link
+              href="/about"
+              className={`px-3 py-1.5 rounded-md transition-colors ${
+                pathname === '/about'
+                  ? 'bg-white/10 text-white font-medium'
+                  : 'text-gray-400 hover:text-white'
+              }`}
+            >
+              About the data
+            </Link>
+          </nav>
+
+          <span className="text-[10px] font-mono tracking-wider px-2 py-0.5 rounded-full bg-amber-950/60 border border-amber-800/60 text-amber-300 hidden sm:inline-block">
+            PROTOTYPE · SAMPLE DATA
+          </span>
+        </div>
       </div>
     </header>
   );
