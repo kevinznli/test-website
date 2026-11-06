@@ -12,7 +12,6 @@ export default function FeaturesGrid() {
       </h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {/* Card 1 */}
         <div className="bg-[#181613] border border-white/10 rounded-2xl p-6 flex flex-col justify-between h-64">
           <div>
             <div className="text-base mb-3">🗺️</div>
@@ -26,7 +25,6 @@ export default function FeaturesGrid() {
           </Link>
         </div>
 
-        {/* Card 2 */}
         <div className="bg-[#181613] border border-white/10 rounded-2xl p-6 flex flex-col justify-between h-64">
           <div>
             <div className="text-base mb-3">📊</div>
@@ -40,7 +38,6 @@ export default function FeaturesGrid() {
           </Link>
         </div>
 
-        {/* Card 3 */}
         <div className="bg-[#181613] border border-white/10 rounded-2xl p-6 flex flex-col justify-between h-64">
           <div>
             <div className="flex items-center justify-between mb-3">
@@ -57,7 +54,6 @@ export default function FeaturesGrid() {
           <span className="text-xs text-gray-500">Coming soon</span>
         </div>
 
-        {/* Card 4 */}
         <div className="bg-[#181613] border border-white/10 rounded-2xl p-6 flex flex-col justify-between h-64">
           <div>
             <div className="text-base mb-3">🗄️</div>

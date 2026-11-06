@@ -78,7 +78,6 @@ export default function HeroScoreCard() {
 
   return (
     <div className="bg-[#1a1714] border border-white/10 rounded-2xl p-6 shadow-2xl text-white">
-      {/* Location Preset Pills */}
       <div className="flex flex-wrap gap-2 mb-6">
         {Object.keys(SAMPLE_DATA).map((key) => (
           <button
@@ -95,7 +94,6 @@ export default function HeroScoreCard() {
         ))}
       </div>
 
-      {/* Main Score & Location Details */}
       <div className="flex items-center gap-5 mb-6">
         <div className="relative w-20 h-20 rounded-full flex items-center justify-center border-4 border-[#b94a2a] bg-[#221c18]">
           <div className="text-center">
@@ -113,7 +111,6 @@ export default function HeroScoreCard() {
         </div>
       </div>
 
-      {/* Hazard Progress Bars */}
       <div className="space-y-3 pt-2 border-t border-white/5">
         {current.hazards.map((h) => (
           <div key={h.name} className="flex items-center justify-between text-xs">
@@ -129,7 +126,6 @@ export default function HeroScoreCard() {
         ))}
       </div>
 
-      {/* Card Footer Link */}
       <div className="mt-6 pt-4 border-t border-white/10 flex items-center justify-between text-xs">
         <span className="text-[10px] font-mono text-amber-500/80 uppercase tracking-widest">SAMPLE VALUES</span>
         <Link href="/map" className="text-amber-400 hover:text-amber-300 font-medium">

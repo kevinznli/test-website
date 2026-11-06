@@ -10,7 +10,6 @@ export default function Navigation() {
   return (
     <header className="sticky top-0 z-50 w-full bg-[#11100e]/90 backdrop-blur-md border-b border-white/10 px-6 py-3.5 transition-all">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
-        {/* Brand link to home */}
         <Link 
           href="/" 
           className="group flex items-center gap-2.5 transition-transform active:scale-95"
@@ -30,7 +29,6 @@ export default function Navigation() {
           </div>
         </Link>
 
-        {/* Links & Prototype Pill */}
         <div className="flex items-center gap-4">
           <nav className="flex items-center gap-1 text-xs">
             <Link

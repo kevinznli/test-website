@@ -25,7 +25,6 @@ export default function HomePage() {
               See which natural hazards hit your county hardest, what they cost each year, and how prepared your community is.
             </p>
 
-            {/* Address Search Bar */}
             <div className="mt-8 flex flex-col sm:flex-row items-center gap-2 max-w-lg">
               <div className="relative w-full">
                 <input
@@ -42,7 +41,6 @@ export default function HomePage() {
               </button>
             </div>
 
-            {/* Quick Suggestion Chips */}
             <div className="mt-4 flex flex-wrap items-center gap-2 text-xs text-gray-400">
               <span>Try:</span>
               <span className="px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-gray-300">
@@ -65,7 +63,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Section 2: Hazard Recolor Map Showcase (Flood, Wildfire, Earthquake, Hurricane, Tornado) */}
+        {/* Section 2: Hazard Recolor Map Showcase */}
         <div>
           <span className="text-[11px] font-mono uppercase tracking-widest text-amber-500 block mb-2">
             ONE COUNTRY, FIVE HAZARDS

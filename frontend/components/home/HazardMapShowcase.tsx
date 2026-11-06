@@ -143,7 +143,6 @@ export default function HazardMapShowcase() {
   return (
     <section className="bg-[#181512] border border-white/10 rounded-3xl p-8 my-8 text-white">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-        {/* US Hazard Map Graphic */}
         <div className="lg:col-span-8 flex items-center justify-center relative p-2">
           <svg
             viewBox="50 20 800 500"
@@ -167,7 +166,6 @@ export default function HazardMapShowcase() {
           </svg>
         </div>
 
-        {/* Hazard Selector Controls */}
         <div className="lg:col-span-4">
           <span className="text-[10px] font-mono tracking-widest text-amber-500 uppercase block mb-1">
             NOW SHOWING
@@ -177,7 +175,6 @@ export default function HazardMapShowcase() {
             {activeHazard.description}
           </p>
 
-          {/* Hazard Buttons */}
           <div className="flex flex-wrap gap-2 mt-6">
             {HAZARD_DATA.map((h, idx) => (
               <button
@@ -195,7 +192,6 @@ export default function HazardMapShowcase() {
             ))}
           </div>
 
-          {/* Pause / Resume Button and Timeline */}
           <div className="mt-8 pt-6 border-t border-white/10 flex items-center gap-4">
             <button
               onClick={() => setIsPaused((prev) => !prev)}
