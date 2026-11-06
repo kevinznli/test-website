@@ -3,8 +3,7 @@ import './globals.css';
 
 export const metadata: Metadata = {
   title: 'Risk Resource | US Natural Disaster Risk',
-  description:
-    'Synthesizing federal data from FEMA, NOAA, USGS, and NIFC into an explainable risk index for homeowners and communities.',
+  description: 'US Natural Disaster Risk Assessment',
 };
 
 export default function RootLayout({
@@ -14,7 +13,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="bg-[#11100e] text-white min-h-screen antialiased selection:bg-amber-900/60 selection:text-white">
+      <body className="min-h-screen bg-[#fcfbf7] text-[#111827]">
         {children}
       </body>
     </html>
