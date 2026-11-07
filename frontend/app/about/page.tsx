@@ -1,9 +1,5 @@
-'use client';
-
-import React from 'react';
 import Navigation from '@/components/common/Navigation';
 import Footer from '@/components/common/Footer';
-import Link from 'next/link';
 
 interface DataSource {
   name: string;
@@ -17,44 +13,54 @@ interface DataSource {
 
 const DATA_SOURCES: DataSource[] = [
   {
-    name: 'National Risk Index (NRI)',
+    name: 'Disaster Declarations',
     agency: 'FEMA',
     type: 'Baseline (Static)',
-    cadence: 'Annual / Biennial',
-    resolution: 'Census Tract & County',
+    cadence: 'Pre-computed',
+    resolution: 'County',
     description:
-      'Provides 20-year historical baseline risk ratings, expected annual financial loss per person, social vulnerability indices, and community resilience scores across 18 natural hazards.',
-    link: 'https://hazards.fema.gov/nri/',
+      'Federal major disaster and fire declarations since 2006, counted per county for wildfire, flood, severe storm, hurricane and tornado.',
+    link: 'https://www.fema.gov/openfema-data-page/disaster-declarations-summaries-v2',
   },
   {
-    name: 'Real-Time Seismic Network',
+    name: 'Earthquake Catalog',
     agency: 'USGS',
-    type: 'Live Telemetry',
-    cadence: '1 minute (Event-driven)',
-    resolution: 'Geographic coordinate (Lat/Lon)',
+    type: 'Baseline (Static)',
+    cadence: 'Pre-computed, plus 5 min for recent events',
+    resolution: 'Latitude / longitude',
     description:
-      'Continuous stream of seismic events, moment magnitudes, epicenter depths, and ShakeMap peak ground acceleration (PGA) decay vectors within distance buffers.',
-    link: 'https://earthquake.usgs.gov/',
+      'Magnitude 4.5+ earthquakes since 2006 set the long-term baseline. Magnitude 3+ earthquakes from the past week feed the live score.',
+    link: 'https://earthquake.usgs.gov/fdsnws/event/1/',
   },
   {
-    name: 'HRRR & NWS Active Alert Polygons',
+    name: 'Active Alerts',
     agency: 'NOAA / NWS',
     type: 'Live Telemetry',
-    cadence: 'Hourly / 15 minutes',
-    resolution: '3 km grid (HRRR)',
+    cadence: '5 minutes',
+    resolution: 'County',
     description:
-      'Mesoscale atmospheric weather modeling for peak wind gusts, sudden precipitation rates, and real-time CAP alert warning polygons (Red Flag, Flash Flood, High Wind).',
-    link: 'https://www.weather.gov/',
+      'Active watches, warnings and advisories such as Red Flag, Flash Flood, High Wind and Tornado Warnings.',
+    link: 'https://www.weather.gov/documentation/services-web-api',
   },
   {
-    name: 'Wildland Fire Interagency System',
-    agency: 'NIFC / IRWIN',
+    name: 'River Gauges',
+    agency: 'NOAA / NWPS',
     type: 'Live Telemetry',
-    cadence: 'Hourly to Daily',
-    resolution: 'Active Perimeter Polygons',
+    cadence: '15 minutes',
+    resolution: 'Individual gauge',
     description:
-      'Active fire incident perimeters, containment percentages, and thermal satellite hotspot detections (VIIRS / MODIS) evaluating proximity risk.',
-    link: 'https://www.nifc.gov/',
+      'Observed and forecast flood categories for river gauges in and around a county. Used when viewing a single county.',
+    link: 'https://api.water.noaa.gov/nwps/v1/docs/',
+  },
+  {
+    name: 'Weather Forecast',
+    agency: 'Open-Meteo',
+    type: 'Live Telemetry',
+    cadence: '30 minutes',
+    resolution: 'County center point',
+    description:
+      'Next-24-hour wind gusts, humidity and rainfall. Used when viewing a single county.',
+    link: 'https://open-meteo.com/en/docs',
   },
 ];
 
@@ -76,7 +82,7 @@ export default function AboutDataPage() {
           <p className="text-sm text-gray-500 mt-5 leading-relaxed max-w-2xl">
             Hazard risk information is scattered across disparate agency databases built for research, 
             not for everyday residents asking <em>&ldquo;how worried should I be about my home right now?&rdquo;</em> 
-            Risk Resource synthesizes historical baselines with real-time physical telemetry.
+            Risk Resource combines historical baselines with live alerts and conditions.
           </p>
         </section>
 
@@ -88,7 +94,7 @@ export default function AboutDataPage() {
             </span>
             <h2 className="text-xl font-medium text-gray-900">How the score is built</h2>
             <p className="text-xs text-gray-500 mt-1 max-w-xl">
-              Each hazard is calculated as an isolated 0 to 100 sub-score split into two distinct, explainable components.
+              Each hazard gets its own 0 to 100 score, split evenly between two explainable components.
             </p>
           </div>
 
@@ -99,20 +105,27 @@ export default function AboutDataPage() {
               </span>
               <h3 className="text-sm font-bold text-gray-900 mt-3">Long-Term Exposure</h3>
               <p className="text-xs text-gray-500 mt-1.5 leading-relaxed">
-                Derived from FEMA NRI 20-year historical incidence, fault line proximity, elevation slope, and designated 100-year flood zone buffers.
+                How a county ranks among counties that have had this hazard, based on federal disaster declarations and nearby earthquakes since 2006.
               </p>
             </div>
 
             <div className="bg-white p-5 rounded-xl border border-gray-200 shadow-2xs">
               <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded-full bg-rose-50 text-rose-700 font-semibold border border-rose-200">
-                50% Live Multiplier
+                50% Live Signal
               </span>
               <h3 className="text-sm font-bold text-gray-900 mt-3">Real-Time Telemetry</h3>
               <p className="text-xs text-gray-500 mt-1.5 leading-relaxed">
-                Injected from hourly NWS alert polygons, HRRR wind gusts (&gt;40 mph), live river stages vs. flood crest, and USGS seismic events.
+                The strongest current signal for that hazard: an NWS alert, a recent earthquake, a hazardous forecast or a river gauge above flood stage.
               </p>
             </div>
           </div>
+
+          <p className="text-xs text-gray-500 mt-4 max-w-2xl leading-relaxed">
+            A place&apos;s overall score is 60% its highest hazard score plus 40% the average of its
+            top three. Scores of 75 and up are Critical, 50 to 74 Elevated, 30 to 49 Moderate, and
+            below 30 Low. State scores are population-weighted averages of their counties. This is a
+            prototype model and not a substitute for official warnings.
+          </p>
         </section>
 
         {/* Agency Ingestion Feeds */}
@@ -121,7 +134,7 @@ export default function AboutDataPage() {
             <span className="text-[11px] font-mono uppercase tracking-wider text-gray-400 block mb-1">
               Pipelines
             </span>
-            <h2 className="text-xl font-medium text-gray-900">Federal Data Sources</h2>
+            <h2 className="text-xl font-medium text-gray-900">Data Sources</h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -184,31 +197,45 @@ export default function AboutDataPage() {
               <tbody className="divide-y divide-gray-100 font-mono text-gray-700">
                 <tr>
                   <td className="p-3.5 font-bold text-gray-900">Wildfire</td>
-                  <td className="p-3.5">Wind &times; (100 - RH)</td>
-                  <td className="p-3.5">Compound Index</td>
+                  <td className="p-3.5">Humidity &amp; Peak Wind Gusts</td>
+                  <td className="p-3.5">% / mph</td>
                   <td className="p-3.5">RH &le; 15% &amp; Gusts &ge; 25 mph</td>
-                  <td className="p-3.5 text-rose-700 font-semibold">Red Flag / Perimeter &lt; 5 mi</td>
+                  <td className="p-3.5 text-rose-700 font-semibold">Red Flag Warning</td>
                 </tr>
                 <tr>
                   <td className="p-3.5 font-bold text-gray-900">Severe Weather</td>
                   <td className="p-3.5">Peak Wind Gusts</td>
                   <td className="p-3.5">mph</td>
                   <td className="p-3.5">40 mph (NWS Advisory)</td>
-                  <td className="p-3.5 text-rose-700 font-semibold">&ge; 58 mph (Structural Shock)</td>
+                  <td className="p-3.5 text-rose-700 font-semibold">&ge; 58 mph</td>
                 </tr>
                 <tr>
                   <td className="p-3.5 font-bold text-gray-900">Flood</td>
-                  <td className="p-3.5">Gauge vs. Flood Stage</td>
-                  <td className="p-3.5">ft / discharge</td>
-                  <td className="p-3.5">Action Stage (+0.0 ft)</td>
-                  <td className="p-3.5 text-rose-700 font-semibold">Major Flood Crest (+3.5 ft)</td>
+                  <td className="p-3.5">Gauge Flood Category</td>
+                  <td className="p-3.5">Category</td>
+                  <td className="p-3.5">Action Stage</td>
+                  <td className="p-3.5 text-rose-700 font-semibold">Major Flood / Flash Flood Warning</td>
                 </tr>
                 <tr>
                   <td className="p-3.5 font-bold text-gray-900">Earthquake</td>
-                  <td className="p-3.5">Distance-decayed PGA</td>
-                  <td className="p-3.5">%g / MMI</td>
+                  <td className="p-3.5">Magnitude &amp; Distance</td>
+                  <td className="p-3.5">M / mi</td>
                   <td className="p-3.5">M &ge; 3.0 within 30 mi</td>
                   <td className="p-3.5 text-rose-700 font-semibold">M &ge; 5.5 within 20 mi</td>
+                </tr>
+                <tr>
+                  <td className="p-3.5 font-bold text-gray-900">Hurricane</td>
+                  <td className="p-3.5">NWS Alerts</td>
+                  <td className="p-3.5">Event</td>
+                  <td className="p-3.5">Tropical Storm Watch</td>
+                  <td className="p-3.5 text-rose-700 font-semibold">Hurricane Warning</td>
+                </tr>
+                <tr>
+                  <td className="p-3.5 font-bold text-gray-900">Tornado</td>
+                  <td className="p-3.5">NWS Alerts</td>
+                  <td className="p-3.5">Event</td>
+                  <td className="p-3.5">Tornado Watch</td>
+                  <td className="p-3.5 text-rose-700 font-semibold">Tornado Warning</td>
                 </tr>
               </tbody>
             </table>

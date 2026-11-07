@@ -10,7 +10,7 @@ export default function Footer() {
           <div className="md:col-span-5 space-y-3 pr-6">
             <h3 className="text-sm font-bold text-white tracking-tight">Risk Resource</h3>
             <p className="leading-relaxed text-gray-400 max-w-sm">
-              Combines federal data from FEMA, NOAA, USGS and NIFC into an explainable risk index for homeowners and communities.
+              Combines public data from FEMA, NOAA, USGS and Open-Meteo into an explainable risk score for homeowners and communities.
             </p>
           </div>
 
@@ -28,10 +28,10 @@ export default function Footer() {
           <div className="md:col-span-2 space-y-2.5">
             <h4 className="font-mono uppercase text-gray-200 text-[11px] tracking-wider">Data feeds</h4>
             <ul className="space-y-1.5">
-              <li><a href="https://hazards.fema.gov/nri/" target="_blank" rel="noreferrer" className="hover:text-white">FEMA NRI</a></li>
+              <li><a href="https://www.fema.gov/about/openfema/api" target="_blank" rel="noreferrer" className="hover:text-white">OpenFEMA</a></li>
               <li><a href="https://earthquake.usgs.gov/" target="_blank" rel="noreferrer" className="hover:text-white">USGS</a></li>
               <li><a href="https://www.weather.gov/" target="_blank" rel="noreferrer" className="hover:text-white">NOAA / NWS</a></li>
-              <li><a href="https://www.nifc.gov/" target="_blank" rel="noreferrer" className="hover:text-white">NIFC</a></li>
+              <li><a href="https://open-meteo.com/" target="_blank" rel="noreferrer" className="hover:text-white">Open-Meteo</a></li>
             </ul>
           </div>
 
