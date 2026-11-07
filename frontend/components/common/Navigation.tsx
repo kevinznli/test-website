@@ -64,7 +64,7 @@ export default function Navigation() {
           </nav>
 
           <span className="text-[10px] font-mono tracking-wider px-2 py-0.5 rounded-full bg-amber-950/60 border border-amber-800/60 text-amber-300 hidden sm:inline-block">
-            PROTOTYPE · SAMPLE DATA
+            PROTOTYPE
           </span>
         </div>
       </div>

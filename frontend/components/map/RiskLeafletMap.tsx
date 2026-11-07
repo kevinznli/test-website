@@ -1,38 +1,58 @@
 // frontend/components/map/RiskLeafletMap.tsx
 'use client';
 
-import React, { useEffect, useState, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import type { Feature, FeatureCollection } from 'geojson';
+import L from 'leaflet';
 import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
+import { NO_DATA_COLOR, TIER_COLORS } from '@/lib/tiers';
+import type { MapLevel, MapValue } from '@/lib/types';
 
-// 5-quintile Risk Gradient Ramp
-const GRADIENT_COLORS = [
-  '#fef3cc', // 1: Very Low (pale yellow)
-  '#e5ab58', // 2: Moderate (golden amber)
-  '#ca6834', // 3: Relatively High (terracotta)
-  '#a23924', // 4: High (crimson)
-  '#7a221b', // 5: Very High (deep burgundy)
-];
+const BOUNDARY_URLS: Record<MapLevel, string> = {
+  state:
+    'https://raw.githubusercontent.com/python-visualization/folium-example-data/main/us_states.json',
+  // About 3.2 MB and 3,221 counties, so it's only fetched when first needed
+  county: 'https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json',
+};
 
-function getFeatureColor(idString: string = '') {
-  let hash = 0;
-  for (let i = 0; i < idString.length; i++) {
-    hash = (hash << 5) - hash + idString.charCodeAt(i);
-    hash |= 0;
-  }
-  return GRADIENT_COLORS[Math.abs(hash) % GRADIENT_COLORS.length];
+export interface MapFocus {
+  id: string; // State code or FIPS
+  nonce: number; // Changes on each request, so the same place can be focused twice
 }
 
 interface Props {
   viewMode: 'states' | 'counties';
-  onSelectFeature?: (name: string, type: 'state' | 'county') => void;
+  values: MapValue[] | null;
+  focus: MapFocus | null;
+  onSelectFeature: (id: string, level: MapLevel) => void;
 }
 
-export default function RiskLeafletMap({ viewMode, onSelectFeature }: Props) {
-  const [statesGeo, setStatesGeo] = useState<any>(null);
-  const [countiesGeo, setCountiesGeo] = useState<any>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const mapRef = useRef<any>(null);
+function findFeature(collection: FeatureCollection | undefined, id: string): Feature | undefined {
+  return collection?.features.find((feature) => feature.id === id);
+}
+
+export default function RiskLeafletMap({ viewMode, values, focus, onSelectFeature }: Props) {
+  const [boundaries, setBoundaries] = useState<Partial<Record<MapLevel, FeatureCollection>>>({});
+  const [failedLevels, setFailedLevels] = useState<Partial<Record<MapLevel, boolean>>>({});
+  const mapRef = useRef<L.Map | null>(null);
+
+  const level: MapLevel = viewMode === 'states' ? 'state' : 'county';
+  const needsBoundaries = !boundaries[level];
+
+  const valuesById = useMemo(
+    () => new Map((values ?? []).map((item) => [item.id, item])),
+    [values]
+  );
+
+  // react-leaflet reads onEachFeature only when a layer is created, so its
+  // handlers reach the latest props through these refs.
+  const valuesRef = useRef(valuesById);
+  const onSelectRef = useRef(onSelectFeature);
+  useEffect(() => {
+    valuesRef.current = valuesById;
+    onSelectRef.current = onSelectFeature;
+  }, [valuesById, onSelectFeature]);
 
   // Read CARTO API key from Next.js environment variable
   const cartoApiKey = process.env.NEXT_PUBLIC_CARTO_API_KEY;
@@ -47,32 +67,88 @@ export default function RiskLeafletMap({ viewMode, onSelectFeature }: Props) {
     : '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
 
   useEffect(() => {
-    // 1. Fetch US States GeoJSON
-    const fetchStates = fetch(
-      'https://raw.githubusercontent.com/python-visualization/folium-example-data/main/us_states.json'
-    ).then((res) => res.json());
-
-    // 2. Fetch US Counties GeoJSON (~3,143 counties)
-    const fetchCounties = fetch(
-      'https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json'
-    ).then((res) => res.json());
-
-    Promise.all([fetchStates, fetchCounties])
-      .then(([statesData, countiesData]) => {
-        setStatesGeo(statesData);
-        setCountiesGeo(countiesData);
-        setLoading(false);
+    if (!needsBoundaries) return;
+    const controller = new AbortController();
+    fetch(BOUNDARY_URLS[level], { signal: controller.signal })
+      .then((response) => {
+        if (!response.ok) throw new Error(`Boundary request failed: ${response.status}`);
+        return response.json();
       })
-      .catch((err) => console.error('Error fetching map boundaries:', err));
-  }, []);
+      .then((collection: FeatureCollection) => {
+        setBoundaries((current) => ({ ...current, [level]: collection }));
+        setFailedLevels((current) => ({ ...current, [level]: false }));
+      })
+      .catch((error) => {
+        if (controller.signal.aborted) return;
+        console.error('Error fetching map boundaries:', error);
+        setFailedLevels((current) => ({ ...current, [level]: true }));
+      });
+    return () => controller.abort();
+  }, [level, needsBoundaries]);
+
+  // Pan and zoom to a requested place once its boundary is available.
+  useEffect(() => {
+    if (!focus || !mapRef.current) return;
+    const feature = findFeature(boundaries.county, focus.id) ?? findFeature(boundaries.state, focus.id);
+    if (feature) {
+      mapRef.current.fitBounds(L.geoJSON(feature).getBounds(), { padding: [24, 24], maxZoom: 8 });
+    }
+  }, [focus, boundaries]);
+
+  const fillColor = useCallback(
+    (feature: Feature | undefined) => {
+      const item = valuesById.get(String(feature?.id));
+      return item ? TIER_COLORS[item.tier] : NO_DATA_COLOR;
+    },
+    [valuesById]
+  );
+
+  // These keep a stable identity until the values change, because react-leaflet
+  // restyles every polygon whenever the style prop changes.
+  const stateStyle = useCallback(
+    (feature: Feature | undefined) => ({
+      fillColor: fillColor(feature),
+      weight: 1.2,
+      opacity: 1,
+      color: '#2d3748',
+      fillOpacity: 0.75,
+    }),
+    [fillColor]
+  );
+  const countyStyle = useCallback(
+    (feature: Feature | undefined) => ({
+      fillColor: fillColor(feature),
+      weight: 0.35,
+      opacity: 0.8,
+      color: '#4a5568',
+      fillOpacity: 0.7,
+    }),
+    [fillColor]
+  );
+
+  const tooltipFor = (name: string, id: string) => () => {
+    const item = valuesRef.current.get(id);
+    const score = item ? `${item.value}/100 · ${item.tier}` : 'No data';
+    return `<b>${name}</b><br/>${score}`;
+  };
+
+  const loading = needsBoundaries && !failedLevels[level];
 
   return (
     <div className="relative w-full h-[620px] rounded-2xl overflow-hidden border border-gray-200/90 shadow-sm bg-[#e8ecef]">
       {/* Loading Overlay */}
       {loading && (
-        <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-white/75 backdrop-blur-xs">
+        <div className="absolute inset-0 z-[500] flex flex-col items-center justify-center bg-white/75 backdrop-blur-xs">
           <div className="w-8 h-8 border-3 border-gray-400 border-t-black rounded-full animate-spin mb-2" />
-          <span className="font-mono text-xs text-gray-700">Loading North America Geographic Boundary Layers...</span>
+          <span className="font-mono text-xs text-gray-700">Loading map boundaries...</span>
+        </div>
+      )}
+
+      {failedLevels[level] && (
+        <div className="absolute inset-0 z-[500] flex items-center justify-center bg-white/75 backdrop-blur-xs p-6 text-center">
+          <span className="font-mono text-xs text-gray-700">
+            Couldn&apos;t load map boundaries. Check your connection and reload the page.
+          </span>
         </div>
       )}
 
@@ -89,48 +165,36 @@ export default function RiskLeafletMap({ viewMode, onSelectFeature }: Props) {
         <TileLayer attribution={tileAttribution} url={tileUrl} />
 
         {/* States Overview Mode */}
-        {viewMode === 'states' && statesGeo && (
+        {viewMode === 'states' && boundaries.state && (
           <GeoJSON
             key="states-layer"
-            data={statesGeo}
-            style={(feature) => ({
-              fillColor: getFeatureColor(feature?.properties?.name || feature?.id),
-              weight: 1.2,
-              opacity: 1,
-              color: '#2d3748',
-              fillOpacity: 0.65,
-            })}
+            data={boundaries.state}
+            style={stateStyle}
             onEachFeature={(feature, layer) => {
-              const stateName = feature.properties?.name || 'Unknown State';
-              layer.bindTooltip(`<b>${stateName}</b>`, { sticky: true });
+              const id = String(feature.id);
+              layer.bindTooltip(tooltipFor(feature.properties?.name ?? id, id), { sticky: true });
               layer.on({
-                click: () => onSelectFeature?.(stateName, 'state'),
-                mouseover: (e) => e.target.setStyle({ weight: 2.2, color: '#000000', fillOpacity: 0.85 }),
-                mouseout: (e) => e.target.setStyle({ weight: 1.2, color: '#2d3748', fillOpacity: 0.65 }),
+                click: () => onSelectRef.current(id, 'state'),
+                mouseover: (e) => e.target.setStyle({ weight: 2.2, color: '#000000', fillOpacity: 0.9 }),
+                mouseout: (e) => e.target.setStyle({ weight: 1.2, color: '#2d3748', fillOpacity: 0.75 }),
               });
             }}
           />
         )}
 
         {/* Counties Detailed Mode */}
-        {viewMode === 'counties' && countiesGeo && (
+        {viewMode === 'counties' && boundaries.county && (
           <GeoJSON
             key="counties-layer"
-            data={countiesGeo}
-            style={(feature) => ({
-              fillColor: getFeatureColor(feature?.id || feature?.properties?.NAME),
-              weight: 0.35,
-              opacity: 0.8,
-              color: '#4a5568',
-              fillOpacity: 0.55,
-            })}
+            data={boundaries.county}
+            style={countyStyle}
             onEachFeature={(feature, layer) => {
-              const countyName = feature.properties?.NAME || `County ${feature.id}`;
-              layer.bindTooltip(`<b>${countyName}</b><br/>FIPS: ${feature.id}`, { sticky: true });
+              const id = String(feature.id);
+              layer.bindTooltip(tooltipFor(feature.properties?.NAME ?? id, id), { sticky: true });
               layer.on({
-                click: () => onSelectFeature?.(countyName, 'county'),
-                mouseover: (e) => e.target.setStyle({ weight: 1.5, color: '#000000', fillOpacity: 0.85 }),
-                mouseout: (e) => e.target.setStyle({ weight: 0.35, color: '#4a5568', fillOpacity: 0.55 }),
+                click: () => onSelectRef.current(id, 'county'),
+                mouseover: (e) => e.target.setStyle({ weight: 1.5, color: '#000000', fillOpacity: 0.9 }),
+                mouseout: (e) => e.target.setStyle({ weight: 0.35, color: '#4a5568', fillOpacity: 0.7 }),
               });
             }}
           />

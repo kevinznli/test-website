@@ -1,41 +1,60 @@
 // frontend/lib/types.ts
+// API response shapes. These mirror backend/app/schemas.py: change both together.
+
+export type Tier = 'Low' | 'Moderate' | 'Elevated' | 'Critical';
+
+export type MapLevel = 'state' | 'county';
+
+export type MapMetric =
+  | 'compositeScore'
+  | 'wildfire'
+  | 'earthquake'
+  | 'flood'
+  | 'severeStorm'
+  | 'hurricane'
+  | 'tornado';
 
 export interface HazardItem {
   name: string;
-  score: number;       // 0 to 100
-  tier: 'Low' | 'Moderate' | 'Elevated' | 'Critical';
+  score: number;       // Whole number, 0 to 100
+  tier: Tier;
   warning: string;
 }
 
 export interface StateRecord {
-  code: string;
+  code: string;        // Matches the state GeoJSON feature ID, e.g. "CA"
   name: string;
-  row?: number;        // <-- Make optional so state data doesn't require grid coords
-  col?: number;        // <-- Make optional
   compositeScore: number;
-  tier: 'Low' | 'Moderate' | 'Elevated' | 'Critical';
+  tier: Tier;
   countiesCount: number;
-  population: string;
-  activeAlertCount?: number;
-  primaryAlert?: string;
-  lossPerPerson?: number;
-  totalLoss?: string;
-  highRiskPct?: number;
-  highRiskCounties?: number;
-  hazards: HazardItem[];
+  population: string;  // Preformatted, e.g. "39,501,350", or "N/A"
+  activeAlertCount?: number; // Absent when the NWS feed is unavailable
+  primaryAlert?: string;     // Absent when there are no active alerts
+  hazards: HazardItem[];     // Highest score first
 }
 
 export interface CountyRecord {
+  name: string;        // Includes the suffix, e.g. "Orleans Parish"
+  state: string;       // Full name, e.g. "California"
+  stateCode: string;   // e.g. "CA"
+  compositeScore: number;
+  tier: Tier;
+  fips: string;        // Matches the county GeoJSON feature ID, e.g. "06065"
+  pop: string;         // Preformatted, e.g. "2,458,395", or "N/A"
+  activeAlert?: string; // Absent when there are no active alerts
+  hazards: HazardItem[]; // Highest score first
+}
+
+export interface MapValue {
+  id: string;          // State code or FIPS, matching the GeoJSON feature ID
+  value: number;       // Whole number, 0 to 100
+  tier: Tier;
+}
+
+export interface SearchResult {
+  fips: string;
   name: string;
   state: string;
-  compositeScore: number;
-  tier: 'Low' | 'Moderate' | 'Elevated' | 'Critical';
-  fips?: string;
-  pop: string;
-  activeAlert?: string;
-  lossPerPerson?: string;
-  totalLoss?: string;
-  risk?: string;
-  color?: string;
-  hazards: HazardItem[]; // <-- Required array so .map() is always safe
+  stateCode: string;
+  matchedPlace?: string; // Present when a city or ZIP led to this county
 }
