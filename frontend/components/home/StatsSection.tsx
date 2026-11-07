@@ -1,10 +1,10 @@
 import React from 'react';
 
 const STATS = [
-  { label: 'Counties Covered', value: '3,221', detail: 'US counties and Puerto Rico municipios' },
-  { label: 'Natural Hazards', value: '6', detail: 'Scored separately for every county' },
-  { label: 'Jurisdictions', value: '50 + DC + PR', detail: 'One scoring model nationwide' },
-  { label: 'History Since', value: '2006', detail: 'FEMA declarations and USGS earthquakes' },
+  { label: 'Counties Covered', value: '3,232', detail: '100% of US counties & territories' },
+  { label: 'Natural Hazards', value: '18', detail: 'FEMA NRI composite hazards modeled' },
+  { label: 'Jurisdictions', value: '50 + DC + PR', detail: 'Standardized national scoring' },
+  { label: 'Data Vintage', value: 'Dec 2025', detail: 'Latest public federal release' },
 ];
 
 export default function StatsSection() {

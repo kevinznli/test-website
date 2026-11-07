@@ -9,14 +9,14 @@ export default function HeroSection() {
   return (
     <div>
       <span className="text-[11px] font-mono uppercase tracking-widest text-amber-700 block mb-3">
-        FEMA, NOAA &amp; USGS data · 3,221 Counties
+        FEMA National Risk Index · 3,232 Counties
       </span>
       <h1 className="text-4xl sm:text-5xl font-black text-gray-900 tracking-tight leading-[1.1]">
         Know the disaster risk <br />
         <span className="text-amber-600">where you live.</span>
       </h1>
       <p className="text-sm text-gray-600 mt-4 leading-relaxed max-w-lg">
-        See which natural hazards threaten your county most, what&apos;s active right now, and how often disasters have struck since 2006. Built on public data.
+        See which natural hazards hit your county hardest, what they cost each year, and how prepared your community is. Built entirely on public federal data.
       </p>
 
       {/* Address Search */}
