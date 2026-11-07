@@ -9,9 +9,9 @@ export default function CtaBanner() {
           <span className="text-[10px] font-mono uppercase tracking-widest text-amber-400 block mb-2">
             Open Methodology
           </span>
-          <h3 className="text-2xl font-bold text-white">Built on public data.</h3>
+          <h3 className="text-2xl font-bold text-white">Built entirely on public data.</h3>
           <p className="text-xs text-gray-400 mt-2 max-w-xl leading-relaxed">
-            Every risk score is built from FEMA, NOAA, USGS and Open-Meteo data, and the formula is published.
+            Every risk score is backed by FEMA National Risk Index, NOAA, USGS, and NIFC datasets with full formula transparency.
           </p>
         </div>
         <Link
